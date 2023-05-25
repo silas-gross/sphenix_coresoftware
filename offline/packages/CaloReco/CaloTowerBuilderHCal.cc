@@ -39,7 +39,7 @@ CaloTowerBuilder::~CaloTowerBuilder()
 //____________________________________________________________________________..
 int CaloTowerBuilder::InitRun(PHCompositeNode *topNode)
 {
-  WaveformProcessing->set_processing_type(CaloWaveformProcessing::FAST);
+  WaveformProcessing->set_processing_type(CaloWaveformProcessing::TEMPLATE);
   WaveformProcessing->set_softwarezerosuppression(true,40);
   if (m_dettype == CaloTowerBuilder::CEMC)
   {
@@ -153,13 +153,19 @@ int CaloTowerBuilder::process_event(PHCompositeNode *topNode)
   {
     return Fun4AllReturnCodes::EVENT_OK;
   }
-  
+  //here is where we can add another *temporary* node to the tree to give the waveforms at the timesmaples 
   std::vector<std::vector<float>> processed_waveforms = WaveformProcessing->process_waveform(waveforms);
   int n_channels = processed_waveforms.size();
   for (int i = 0; i < n_channels; i++)
   {
     m_CaloInfoContainer->get_tower_at_channel(i)->set_time(processed_waveforms.at(i).at(1));
     m_CaloInfoContainer->get_tower_at_channel(i)->set_energy(processed_waveforms.at(i).at(0));
+    for (int j=0; j < waveforms.at(i).size(); j++)
+	{
+		mCaloInfoContainer->get_tower_at_channel(i)->set_samples_time(processed_waveforms.at(i).at(1), j);
+		mCaloInfoContiner->get_samples_tower_at_channel(i)->set_samples_energy(waveforms.at(i).at(j), j);
+	}
+
   }
   
   waveforms.clear();
@@ -193,6 +199,6 @@ void CaloTowerBuilder::CreateNodeTree(PHCompositeNode *topNode)
     m_CaloInfoContainer = new TowerInfoContainerv1(TowerInfoContainer::DETECTOR::HCAL);
   }
 
-  PHIODataNode<PHObject> *emcal_towerNode = new PHIODataNode<PHObject>(m_CaloInfoContainer, "TOWERS_" + m_detector, "PHObject");
-  dst_node->addNode(emcal_towerNode);
+  PHIODataNode<PHObject> *hcal_towerNode = new PHIODataNode<PHObject>(m_CaloInfoContainer, "TOWERS_" + m_detector, "PHObject");
+  dst_node->addNode(hcal_towerNode);
 }

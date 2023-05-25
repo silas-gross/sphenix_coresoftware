@@ -28,7 +28,7 @@ class TowerInfoContainer : public PHObject
  
   virtual void Reset() override {}
   virtual TowerInfo* get_tower_at_channel(int /*index*/) { return nullptr; }
-  virtual TowerInfo* get_tower_at_key(int /*key*/) { return nullptr; }
+  virtual TowerInfo* get_tower_at_key(int /*key*/) { return nullptr; 
   virtual size_t size() { return 0; }
 
   virtual unsigned int encode_key(unsigned int /*towerIndex*/) { return UINT_MAX; }

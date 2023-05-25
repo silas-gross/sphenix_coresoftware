@@ -16,6 +16,8 @@ class TowerInfo : public PHObject
   virtual short get_time() { return -1; }
   virtual void set_energy(float /*energy*/) { return; }
   virtual float get_energy() { return NAN; }
+  virtual void set_time(short /*t*/, int /*sample*/){ return; }
+  virtual void set_energy(float /*energy*/, int /*sample*/){ return; }
 
  private:
   ClassDefOverride(TowerInfo, 1);
