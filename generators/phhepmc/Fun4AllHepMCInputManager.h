@@ -25,7 +25,7 @@ namespace HepMC
 class Fun4AllHepMCInputManager : public Fun4AllInputManager, public PHHepMCGenHelper
 {
  public:
-  Fun4AllHepMCInputManager(const std::string &name = "DUMMY", const std::string &nodename = "DST", const std::string &topnodename = "TOP");
+  Fun4AllHepMCInputManager(const std::string &name = "DUMMY", const std::string &nodename = "DST", const std::string &topnodename = "TOP"/*, const bool &herwig = "false"*/);
   ~Fun4AllHepMCInputManager() override;
   int fileopen(const std::string &filenam) override;
 // cppcheck-suppress virtualCallInConstructor
@@ -46,7 +46,7 @@ class Fun4AllHepMCInputManager : public Fun4AllInputManager, public PHHepMCGenHe
 
   int SkipForThisManager(const int nevents) override { return PushBackEvents(-nevents); }
   int MyCurrentEvent(const unsigned int index = 0) const;
-
+ // bool isHerwig() {return Herwig; }
  protected:
   HepMC::GenEvent *evt = nullptr;
 
@@ -75,6 +75,7 @@ class Fun4AllHepMCInputManager : public Fun4AllInputManager, public PHHepMCGenHe
 
   std::string filename;
   std::string topNodeName;
+//  bool Herwig;
 };
 
 #endif /* PHHEPMC_FUN4ALLHEPMCINPUTMANAGER_H */

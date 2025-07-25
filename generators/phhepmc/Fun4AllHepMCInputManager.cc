@@ -41,12 +41,14 @@
 
 static const double toMM = 1.e-12;
 
-Fun4AllHepMCInputManager::Fun4AllHepMCInputManager(const std::string &name, const std::string &nodename, const std::string &topnodename)
+Fun4AllHepMCInputManager::Fun4AllHepMCInputManager(const std::string &name, const std::string &nodename, const std::string &topnodename/*, const bool &herwig*/)
   : Fun4AllInputManager(name, nodename, topnodename)
   , topNodeName(topnodename)
+//  , Herwig(herwig)
 {
   set_embedding_id(0);  // default embedding ID. Welcome to change via macro
-
+//  if(Herwig) set_embedding_id(1);
+//  else set_embedding_id(0);
   Fun4AllServer *se = Fun4AllServer::instance();
   topNode = se->topNode(topNodeName);
   PHNodeIterator iter(topNode);
